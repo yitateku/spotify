@@ -4,8 +4,11 @@ from routes import auth
 from database import engine
 from pydantic_schemas.user_create import UserCreate
 from fastapi.middleware.cors import CORSMiddleware
+from mangum import Mangum
+
 
 app = FastAPI()
+
 app = FastAPI(debug=True)
 
 
@@ -20,3 +23,4 @@ app.add_middleware(
 app.include_router(auth.router, prefix='/auth')
 
 Base.metadata.create_all(bind=engine)
+handler = Mangum(app)
